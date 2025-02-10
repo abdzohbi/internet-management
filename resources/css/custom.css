@@ -1,0 +1,48 @@
+body {
+    direction: rtl;
+    text-align: right;
+}
+.table-hover tbody tr:hover {
+    background-color: #f1f1f1;
+}
+.card {
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.navbar {
+    border-bottom: 2px solid #0056b3;
+    transition: all 0.3s ease-in-out;
+}
+
+.navbar-nav .nav-link {
+    font-size: 1rem;
+    font-weight: 500;
+    transition: color 0.3s ease-in-out;
+}
+
+.navbar-nav .nav-link.active {
+    font-weight: bold;
+    background-color: #ffffff33;
+    border-radius: 5px;
+}
+
+.navbar-nav .nav-link:hover {
+    background-color: #ffffff44;
+    border-radius: 5px;
+}
+
+
+.card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.table {
+    margin-bottom: 20px;
+}
+
+h1, h3 {
+    color: #333;
+}
