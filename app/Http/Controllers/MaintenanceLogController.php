@@ -11,13 +11,13 @@ use App\Models\MaintenanceLog;
 class MaintenanceLogController extends Controller
 {
 
-    function __construct()
-    {
-         $this->middleware('permission:account-list', ['only' => ['index', 'show', 'outstandingReport', 'showTransactions']]);
-         $this->middleware('permission:account-create', ['only' => ['create', 'store']]);
-         $this->middleware('permission:account-edit', ['only' => ['edit', 'update']]);
-         $this->middleware('permission:account-delete', ['only' => ['destroy']]);
-    }
+     function __construct()
+{
+     $this->middleware('permission:account-list', ['only' => ['index', 'show', 'outstandingReport', 'showTransactions']]);
+     $this->middleware('permission:account-create', ['only' => ['create', 'store']]);
+     $this->middleware('permission:account-edit', ['only' => ['edit', 'update']]);
+     $this->middleware('permission:account-delete', ['only' => ['destroy']]);
+}
     public function index(Request $request)
     {
         $query = \App\Models\MaintenanceLog::with('customer');

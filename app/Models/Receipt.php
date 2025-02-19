@@ -20,4 +20,5 @@ class Receipt extends Model
     {
         return $this->belongsTo(Customer::class, 'customer_id','id');
     }
+
 }

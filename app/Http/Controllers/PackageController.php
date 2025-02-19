@@ -8,14 +8,13 @@ use Illuminate\Http\Request;
 
 class PackageController extends Controller
 {
-    function __construct()
+     function __construct()
 {
      $this->middleware('permission:account-list', ['only' => ['index', 'show', 'outstandingReport', 'showTransactions']]);
      $this->middleware('permission:account-create', ['only' => ['create', 'store']]);
      $this->middleware('permission:account-edit', ['only' => ['edit', 'update']]);
      $this->middleware('permission:account-delete', ['only' => ['destroy']]);
 }
-
     public function index()
     {
         $packages = Package::with('company')->get(); // جلب الباقات مع بيانات الشركة المرتبطة

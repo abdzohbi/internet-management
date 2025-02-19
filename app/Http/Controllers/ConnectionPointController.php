@@ -6,13 +6,14 @@ use App\Models\ConnectionPoint;
 use Illuminate\Http\Request;
 
 class ConnectionPointController extends Controller
-{    function __construct()
-    {
-         $this->middleware('permission:account-list', ['only' => ['index', 'show', 'outstandingReport', 'showTransactions']]);
-         $this->middleware('permission:account-create', ['only' => ['create', 'store']]);
-         $this->middleware('permission:account-edit', ['only' => ['edit', 'update']]);
-         $this->middleware('permission:account-delete', ['only' => ['destroy']]);
-    }
+{  
+     function __construct()
+{
+     $this->middleware('permission:account-list', ['only' => ['index', 'show', 'outstandingReport', 'showTransactions']]);
+     $this->middleware('permission:account-create', ['only' => ['create', 'store']]);
+     $this->middleware('permission:account-edit', ['only' => ['edit', 'update']]);
+     $this->middleware('permission:account-delete', ['only' => ['destroy']]);
+}
 
     // عرض جميع النقاط
     public function index()

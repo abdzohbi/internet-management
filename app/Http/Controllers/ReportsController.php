@@ -14,12 +14,12 @@ use Illuminate\Support\Facades\Response;
 
 class ReportsController extends Controller
 {
-    function __construct()
+   function __construct()
     {
-         $this->middleware('permission:account-list', ['only' => ['index', 'show', 'outstandingReport', 'showTransactions']]);
-         $this->middleware('permission:account-create', ['only' => ['create', 'store']]);
-         $this->middleware('permission:account-edit', ['only' => ['edit', 'update']]);
-         $this->middleware('permission:account-delete', ['only' => ['destroy']]);
+         $this->middleware('permission:customer-list|role-create|role-edit|role-delete', ['only' => ['index','store']]);
+         $this->middleware('permission:customer-create', ['only' => ['create','store']]);
+         $this->middleware('permission:customer-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:customer-delete', ['only' => ['destroy']]);
     }
     public function outstandingCustomers()
     {

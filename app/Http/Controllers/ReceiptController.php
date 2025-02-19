@@ -12,7 +12,7 @@ use App\Models\CompanyInfo;
 class ReceiptController extends Controller
 {
 
-    function __construct()
+     function __construct()
 {
      $this->middleware('permission:account-list', ['only' => ['index', 'show', 'outstandingReport', 'showTransactions']]);
      $this->middleware('permission:account-create', ['only' => ['create', 'store']]);

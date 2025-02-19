@@ -15,8 +15,7 @@ use App\Http\Controllers\ConnectionPointController;
 use App\Http\Controllers\BackupController;
 use App\Http\Controllers\CompanyInfoController;
 use App\Http\Controllers\TagController;
-
-
+use App\Http\Controllers\CashTransactionController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
@@ -42,6 +41,8 @@ Route::resource('receipts', ReceiptController::class);
 Route::resource('packages', PackageController::class);
 Route::resource('connection_points', ConnectionPointController::class);
 Route::resource('tags', TagController::class)->only(['index', 'store', 'create', 'destroy']);
+
+Route::get('/cash', [CashTransactionController::class, 'index'])->name('cash.index');
 
 Route::get('/company-info', [CompanyInfoController::class, 'index'])->name('company-info.index');
 Route::put('/company-info', [CompanyInfoController::class, 'update'])->name('company-info.update');

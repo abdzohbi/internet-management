@@ -4,20 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Models\Expense;
 use App\Models\Tag;
-
+use App\Helpers\FinanceHelper;
 use Illuminate\Http\Request;
-
+$balance = FinanceHelper::getCurrentBalance();
 class ExpenseController extends Controller
 {
 
-    function __construct()
+    
+
+     function __construct()
 {
-     $this->middleware('permission:account-list', ['only' => ['index', 'show', 'outstandingReport', 'showTransactions']]);
+     $this->middleware('permission:account-list', ['only' => ['index', 'show', ]]);
      $this->middleware('permission:account-create', ['only' => ['create', 'store']]);
      $this->middleware('permission:account-edit', ['only' => ['edit', 'update']]);
      $this->middleware('permission:account-delete', ['only' => ['destroy']]);
 }
-
     public function index(Request $request)
     {
         // جلب المصروفات مع التاغات المرتبطة
@@ -73,41 +74,58 @@ class ExpenseController extends Controller
 
 
     public function store(Request $request)
-{
-    // التحقق من صحة البيانات المدخلة
-    $data = $request->validate([
-        'type' => 'required|string|max:255',
-        'description' => 'nullable|string',
-        'amount' => 'required|numeric|min:0',
-        'date' => 'required|date',
-        'tags' => 'array', // التحقق من أن التاغات مصفوفة
-    ]);
-
-    // إنشاء المصروف الجديد
-    $expense = Expense::create([
-        'type' => $data['type'],
-        'description' => $data['description'] ?? null,
-        'amount' => $data['amount'],
-        'date' => $data['date'],
-    ]);
-
-    // ربط التاغات بالمصروف
-    if (!empty($data['tags'])) {
-        $expense->tags()->sync($data['tags']); // ربط التاغات المختارة
-    }
-
-
-    if ($request->has('new_tags')) {
-        $newTags = explode(',', $request->new_tags);
-        foreach ($newTags as $newTag) {
-            $tag = Tag::firstOrCreate(['name' => trim($newTag)]);
-            $expense->tags()->attach($tag->id);
+    {
+        // التحقق من صحة البيانات المدخلة
+        $data = $request->validate([
+            'type' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'amount' => 'required|numeric|min:0',
+            'date' => 'required|date',
+            'tags' => 'array',
+        ]);
+    
+        // ✅ جلب الرصيد الحالي للصندوق
+        $currentBalance = FinanceHelper::getCurrentBalance();
+        $newBalance = $currentBalance - $data['amount']; // الرصيد المتوقع بعد خصم المصروف
+    
+        if ($currentBalance <= 0) {
+            session()->flash('error', '❌ لا يمكن تسجيل المصروف لأن الصندوق فارغ أو سالب.');
+            return redirect()->route('expenses.index');
         }
+    
+        if ($newBalance < 0) {
+            session()->flash('error', '❌ لا يمكن تسجيل المصروف لأن الرصيد بعد الإضافة سيكون سالبًا.');
+            return redirect()->route('expenses.index');
+        }
+    
+    
+        // ✅ إنشاء المصروف الجديد
+        $expense = Expense::create([
+            'type' => $data['type'],
+            'description' => $data['description'] ?? null,
+            'amount' => $data['amount'],
+            'date' => $data['date'],
+        ]);
+    
+        // ✅ ربط التاغات بالمصروف
+        if (!empty($data['tags'])) {
+            $expense->tags()->sync($data['tags']);
+        }
+    
+        if ($request->has('new_tags')) {
+            $newTags = explode(',', $request->new_tags);
+            foreach ($newTags as $newTag) {
+                $tag = Tag::firstOrCreate(['name' => trim($newTag)]);
+                $expense->tags()->attach($tag->id);
+            }
+        }
+    
+        // ✅ إعادة التوجيه مع رسالة نجاح
+        session()->flash('success', '✅ تم تسجيل المصروف بنجاح.');
+
+        return redirect()->route('expenses.index');
     }
     
-    // إعادة التوجيه مع رسالة نجاح
-    return redirect()->route('expenses.index')->with('success', 'Expense added successfully.');
-}
 
 
 

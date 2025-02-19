@@ -7,13 +7,13 @@ use Illuminate\Support\Facades\Storage;
 
 class BackupController extends Controller
 {
-    function __construct()
-    {
-         $this->middleware('permission:role-list|role-create|role-edit|role-delete', ['only' => ['index','store']]);
-         $this->middleware('permission:role-create', ['only' => ['create','store']]);
-         $this->middleware('permission:role-edit', ['only' => ['edit','update']]);
-         $this->middleware('permission:role-delete', ['only' => ['destroy']]);
-    } 
+     function __construct()
+{
+     $this->middleware('permission:account-list', ['only' => ['index', 'show', 'outstandingReport', 'showTransactions']]);
+     $this->middleware('permission:account-create', ['only' => ['create', 'store']]);
+     $this->middleware('permission:account-edit', ['only' => ['edit', 'update']]);
+     $this->middleware('permission:account-delete', ['only' => ['destroy']]);
+}
 
     public function backupNow()
     {

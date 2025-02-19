@@ -34,39 +34,46 @@
 <body>
     <!-- Top Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="{{ route('dashboard') }}">
-                <i class="fas fa-network-wired me-2"></i>VARNet
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    @guest
-                        @if (Route::has('login'))
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                            </li>
-                        @endif
-                       
-                    @else
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{{ route('dashboard') }}">
+            <i class="fas fa-network-wired me-2"></i>VARNet
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                @guest
+                    @if (Route::has('login'))
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('dashboard') }}">
-                                <i class="fas fa-home me-1"></i> Dashboard
-                            </a>
+                            <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                         </li>
+                    @endif
+                @else
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('dashboard') }}">
+                            <i class="fas fa-home me-1"></i> Dashboard
+                        </a>
+                    </li>
+
+                    @can('account-list')
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('customers.index') }}">
                                 <i class="fas fa-users me-1"></i> Customers
                             </a>
                         </li>
+                    @endcan
+
+                    @can('account-list')
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('maintenance_logs.index') }}">
                                 <i class="fas fa-tools me-1"></i> Maintenance Logs
                             </a>
                         </li>
-                        <!-- Accounts Dropdown -->
+                    @endcan
+
+                    <!-- Accounts Dropdown -->
+                    @can('account-list')
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="accountsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="fas fa-wallet me-1"></i> Accounts
@@ -81,9 +88,15 @@
                                 <li><a class="dropdown-item" href="{{ route('subscriptions.index') }}">
                                     <i class="fas fa-sync me-1"></i> Renewals
                                 </a></li>
+
+
+                                <li><a class="dropdown-item" href="{{ route('cash.index') }}">Case</a></li>
                             </ul>
                         </li>
-                        <!-- Master Data Dropdown -->
+                    @endcan
+
+                    <!-- Master Data Dropdown -->
+                    @can('account-list')
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="masterDataDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="fas fa-database me-1"></i> Master Data
@@ -100,7 +113,10 @@
                                 </a></li>
                             </ul>
                         </li>
-                        <!-- Reports Dropdown -->
+                    @endcan
+
+                    <!-- Reports Dropdown -->
+                    @can('customer-list')
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="reportsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="fas fa-file-alt me-1"></i> Reports
@@ -109,9 +125,13 @@
                                 <li><a class="dropdown-item" href="{{ route('reports.outstanding_customers') }}">Outstanding Customers</a></li>
                                 <li><a class="dropdown-item" href="{{ route('reports.export.customers.balance') }}">Export Customer Balances</a></li>
                                 <li><a class="dropdown-item" href="{{ route('reports.index') }}">Reports</a></li>
+                                
                             </ul>
                         </li>
-                        <!-- Backup Dropdown -->
+                    @endcan
+
+                    <!-- Backup Dropdown -->
+                    @can('role-list')
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="backupDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="fas fa-hdd me-1"></i> Backup & Settings
@@ -126,26 +146,29 @@
                                 <li><a class="dropdown-item" href="{{ route('company-info.index') }}">Company Information</a></li>
                             </ul>
                         </li>
-                        <!-- User Menu -->
-                        <li class="nav-item dropdown">
-                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                {{ Auth::user()->name }}
+                    @endcan
+
+                    <!-- User Menu -->
+                    <li class="nav-item dropdown">
+                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{ Auth::user()->name }}
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{{ route('logout') }}"
+                               onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                {{ __('Logout') }}
                             </a>
-                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ route('logout') }}"
-                                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                    {{ __('Logout') }}
-                                </a>
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                    @csrf
-                                </form>
-                            </div>
-                        </li>
-                    @endguest
-                </ul>
-            </div>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                            </form>
+                        </div>
+                    </li>
+                @endguest
+            </ul>
         </div>
-    </nav>
+    </div>
+</nav>
+
 
     <!-- Main Content -->
     <div class="content container">
