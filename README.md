@@ -1,7 +1,5 @@
 <p align="center">
-  <a href="https://laravel.com" target="_blank">
-    <img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="300" alt="Laravel Logo">
-  </a>
+  <img src="https://github.com/abdzohbi/internet-management/blob/339ffbe48f6c5976e4184f5db24994132b45316c/logo.jpg" width="200" alt="Project Logo">
 </p>
 
 <h1 align="center">Internet Subscription Management System</h1>
@@ -9,6 +7,7 @@
 <p align="center">
   A web-based open-source platform for managing monthly internet subscriptions, customers, billing, payments, maintenance records, and more.
 </p>
+
 
 <p align="center">
   <img src="https://img.shields.io/badge/Laravel-11.x-red" alt="Laravel Version">
