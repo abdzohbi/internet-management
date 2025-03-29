@@ -42,7 +42,6 @@ The system helps automate daily tasks such as:
 
 ### Clone the Repository
 
-```bash
 git clone [https://github.com/your-username/your-repo-name.git](https://github.com/abdzohbi/internet-management.git)
 cd internet-management
 
@@ -51,7 +50,6 @@ cp .env.example .env
 php artisan key:generate
 php artisan migrate
 php artisan serve
-
 
 ## Project Structure
 
