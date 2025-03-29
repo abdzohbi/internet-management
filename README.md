@@ -45,3 +45,35 @@ The system helps automate daily tasks such as:
 ```bash
 git clone [https://github.com/your-username/your-repo-name.git](https://github.com/abdzohbi/internet-management.git)
 cd internet-management
+
+composer install
+cp .env.example .env
+php artisan key:generate
+php artisan migrate
+php artisan serve
+
+
+## Project Structure
+
+    app/Models: Eloquent models for core entities (Customer, Subscription, Invoice, etc.)
+
+    app/Http/Controllers: Controllers for web routes and logic
+
+    resources/views: Blade templates for front-end views
+
+    routes/web.php: Route definitions
+
+
+## License
+
+This project is open-sourced under the MIT License.
+## 🤝 Contributing
+
+Contributions are welcome! Feel free to fork the project and submit a pull request. For major changes, please open an issue first.
+## 📫 Contact
+
+For suggestions or business inquiries, please contact:
+
+Project Owner: Abdulrahman
+Email: 
+Location: Akkar, Lebanon
